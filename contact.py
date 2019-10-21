@@ -25,7 +25,7 @@ class Contact:
         self.aniversary_month = aniversary_month
         self.aniversary_year = aniversary_year
         self.address2 = address2
-        self.phone2 = notes
+        self.phone2 = phone2
         self.notes = notes
 
 
