@@ -60,15 +60,15 @@ class TestAddGroup(unittest.TestCase):
 
     def open_groups(self, wd):
         # Открытие Групп
-        wd.find_element_by_link_text("groups").click()
-
-    def login(self, wd, username, password):
-        # Логин
+        wd.find_element_by_link_text("groups").c
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
         wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
+        wd.find_element_by_name("pass").send_keys(password)lick()
+
+    def login(self, wd, username, password):
+        # Логин
         wd.find_element_by_xpath(
             "(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::input[2]").click()
 
