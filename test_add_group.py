@@ -14,35 +14,31 @@ class TestAddGroup(unittest.TestCase):
         self.wd.implicitly_wait(30)
     
     def test_add_group(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, username = "admin", password = "secret")
-        self.open_groups(wd)
-        self.create_group(wd, Group(name= "группа", header = "тест", footer = "фывафывафыафыа"))
-        self.return_to_groups(wd)
-        self.logout(wd)
+        self.login(username = "admin", password = "secret")
+        self.create_group(Group(name= "группа", header = "тест", footer = "фывафывафыафыа"))
+        self.logout()
 
     def test_add_empty_group(self):
-        wd = self.wd
-        self.open_home_page(wd)
-        self.login(wd, username="admin", password="secret")
-        self.open_groups(wd)
-        self.create_group(wd, Group(name="", header="", footer=""))
-        self.return_to_groups(wd)
-        self.logout(wd)
+        self.login(username="admin", password="secret")
+        self.create_group(Group(name="", header="", footer=""))
+        self.logout()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         # Логаут
         wd.find_element_by_link_text("Logout").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys("admin")
         wd.find_element_by_xpath("//html").click()
 
-    def return_to_groups(self, wd):
+    def return_to_groups(self):
+        wd = self.wd
         # Возврат на страницу Группы
         wd.find_element_by_link_text("group page").click()
 
-    def create_group(self, wd, group):
+    def create_group(self, group):
+        wd = self.wd
+        self.open_groups()
         # Создание новой группы
         wd.find_element_by_name("new").click()
         # Заполнение
@@ -57,22 +53,27 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         # Подтверждение создания группы
         wd.find_element_by_name("submit").click()
+        self.return_to_groups()
 
-    def open_groups(self, wd):
+    def open_groups(self):
+        wd = self.wd
         # Открытие Групп
-        wd.find_element_by_link_text("groups").c
+        wd.find_element_by_link_text("groups").click()
+
+    def login(self, username, password):
+        wd = self.wd
+        self.open_home_page()
+        # Логин
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
         wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)lick()
+        wd.find_element_by_name("pass").send_keys(password)
+        wd.find_element_by_xpath("//input[@type='submit']").click()
 
-    def login(self, wd, username, password):
-        # Логин
-        wd.find_element_by_xpath(
-            "(.//*[normalize-space(text()) and normalize-space(.)='Password:'])[1]/following::input[2]").click()
 
-    def open_home_page(self, wd):
+    def open_home_page(self):
+        wd = self.wd
         # Открытие страницы
         wd.get("http://localhost/addressbook/")
 
