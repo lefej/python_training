@@ -9,11 +9,8 @@ class GroupHelper:
         # Возврат на страницу Группы
         wd.find_element_by_link_text("group page").click()
 
-    def create(self, group):
+    def fill(self, group):
         wd = self.app.wd
-        self.open_groups()
-        # Создание новой группы
-        wd.find_element_by_name("new").click()
         # Заполнение
         wd.find_element_by_name("group_name").click()
         wd.find_element_by_name("group_name").clear()
@@ -24,6 +21,14 @@ class GroupHelper:
         wd.find_element_by_name("group_footer").click()
         wd.find_element_by_name("group_footer").clear()
         wd.find_element_by_name("group_footer").send_keys(group.footer)
+
+    def create(self, group):
+        wd = self.app.wd
+        self.open_groups()
+        # Создание новой группы
+        wd.find_element_by_name("new").click()
+        # Заполнение
+        self.fill(group)
         # Подтверждение создания группы
         wd.find_element_by_name("submit").click()
         self.return_to_groups()
@@ -50,15 +55,7 @@ class GroupHelper:
         # инициировать редактирование
         wd.find_element_by_name("edit").click()
         # редактирование
-        wd.find_element_by_name("group_name").click()
-        wd.find_element_by_name("group_name").clear()
-        wd.find_element_by_name("group_name").send_keys(group.name)
-        wd.find_element_by_name("group_header").click()
-        wd.find_element_by_name("group_header").clear()
-        wd.find_element_by_name("group_header").send_keys(group.header)
-        wd.find_element_by_name("group_footer").click()
-        wd.find_element_by_name("group_footer").clear()
-        wd.find_element_by_name("group_footer").send_keys(group.footer)
+        self.fill(group)
         # подтверждение редактирования
         wd.find_element_by_name("update").click()
         # возврат в группы
