@@ -2,6 +2,14 @@
 from model.contact import Contact
 
 def test_modify_first_contact(app):
+    if app.contact.count() == 0:
+        app.contact.create(Contact(firstname ="Олеся", middlename ="Павловна", lastname ="Лисовская", nickname ="lefej", title ="тест", address ="г. Москва, ул. Раменки, д.25",
+                           company = "НИИ Восход", home_phone = "555555", mobile_phone = "444444", work_phone = "33333", fax = "22222",
+                           email = "lefej@rambler.ru", email2 = "olesalis@gmail.com",
+                           email3 = "test@mail.ru", site = "test.com",
+                           birthday_year = "1990", aniversary_day = "28", birthday_day = "30", birthday_month = "July",
+                           aniversary_month = "August", aniversary_year = "2000",
+                           address2 = "ул. Удальцова, д.85", phone2 = "тест2", notes = "тест тест тест 7777"))
     app.contact.modify_first_contact(
         Contact(firstname="Анна", middlename="Петровна", lastname="Лесовская", nickname="anna", title="тест222",
                 address="г. Москва, ул. Революции, д.1",

@@ -61,3 +61,8 @@ class GroupHelper:
         wd.find_element_by_name("update").click()
         # возврат в группы
         self.return_to_groups()
+
+    def count(self):
+        wd = self.app.wd
+        self.open_groups()
+        return len(wd.find_elements_by_name("selected[]"))

@@ -126,3 +126,8 @@ class ContactHelper:
         wd.find_element_by_name("update").click()
         # возврат на страницу контактов
         self.go_home()
+
+    def count(self):
+        wd = self.app.wd
+        self.go_home()
+        return len(wd.find_elements_by_name("selected[]"))
