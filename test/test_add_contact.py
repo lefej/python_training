@@ -21,4 +21,3 @@ def test_add_contact2(app):
                            birthday_month="January",
                            aniversary_month="August", aniversary_year="2000",
                            address2="ул. Почтовая, д.85", phone2="тест2", notes="тест тест тест тест тест 999555"))
-

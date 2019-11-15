@@ -1,8 +1,8 @@
 class Contact:
 
-    def __init__(self, firstname, middlename, lastname, nickname, title, address, company, home_phone,
-                     mobile_phone, work_phone, fax, email, email2, email3, site, birthday_year, aniversary_day,
-                     birthday_day, birthday_month, aniversary_month, aniversary_year, address2, phone2, notes):
+    def __init__(self, firstname = None, middlename = None, lastname = None, nickname = None, title = None, address = None, company = None, home_phone = None,
+                     mobile_phone = None, work_phone = None, fax = None, email = None, email2 = None, email3 = None, site = None, birthday_year = None, aniversary_day = None,
+                     birthday_day = None, birthday_month = None, aniversary_month = None, aniversary_year = None, address2 = None, phone2 = None, notes = None, id = None):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
@@ -27,5 +27,10 @@ class Contact:
         self.address2 = address2
         self.phone2 = phone2
         self.notes = notes
+        self.id = id
 
+    def __repr__(self):
+        return "%s:%s:%s" % (self.id, self.firstname, self.lastname)
 
+    def __eq__(self, other):
+        return self.id == other.id and self.firstname == other.firstname and self.lastname == other.lastname
