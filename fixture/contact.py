@@ -112,10 +112,17 @@ class ContactHelper:
         # Инициализация создания контакта
         wd.find_element_by_link_text("add new").click()
 
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
+
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         # выбрать первый контакт
-        wd.find_element_by_name("selected[]").click()
+        self.select_contact_by_index(index)
         # удалить
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to_alert().accept()
@@ -123,9 +130,12 @@ class ContactHelper:
         self.contact_cache = None
 
     def modify_first_contact(self, contact):
+        self.modify_contact_by_index(0)
+
+    def modify_contact_by_index(self, contact, index):
         wd = self.app.wd
         # инициировать редактирование первого конаткта
-        wd.find_element_by_xpath("//img[@title='Edit']").click()
+        wd.find_elements_by_xpath("//img[@title='Edit']")[index].click()
         # редактирование контакта
         self.fill(contact)
         # подтверждение редактирования

@@ -43,22 +43,33 @@ class GroupHelper:
             wd.find_element_by_link_text("groups").click()
 
 
+    def select_group_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def delete_first_group(self):
+        self.delete_group_by_index(0)
+
+    def delete_group_by_index(self, index):
         wd = self.app.wd
         self.open_groups()
         # выбрать первую группу
-        wd.find_element_by_name("selected[]").click()
+        self.select_group_by_index(index)
+        #wd.find_element_by_name("selected[]").click()
         # удалить
         wd.find_element_by_name("delete").click()
         self.return_to_groups()
         self.group_cache = None
 
     def modify_first_group(self, group):
+        self.modify_group_by_index(group, 0)
+
+    def modify_group_by_index(self, group, index):
         wd = self.app.wd
         self.open_groups()
         # выбрать первую группу
-        wd.find_element_by_name("selected[]").click()
+        self.select_group_by_index(index)
+       #wd.find_element_by_name("selected[]").click()
         # инициировать редактирование
         wd.find_element_by_name("edit").click()
         # редактирование

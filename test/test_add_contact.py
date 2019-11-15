@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
-    
+from random import randrange
+
 def test_add_contact1(app):
         old_contacts = app.contact.get_contact_list()
         contact = Contact(firstname ="Олеся", middlename ="Павловна", lastname ="Лисовская", nickname ="lefej", title ="тест", address ="г. Москва, ул. Раменки, д.25",

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
+from random import randrange
 
-def test_modify_first_contact(app):
+def test_modify_some_contact(app):
     if app.contact.count() == 0:
         app.contact.create(Contact(firstname ="Олеся", middlename ="Павловна", lastname ="Лисовская", nickname ="lefej", title ="тест", address ="г. Москва, ул. Раменки, д.25",
                            company = "НИИ Восход", home_phone = "555555", mobile_phone = "444444", work_phone = "33333", fax = "22222",
@@ -19,9 +20,10 @@ def test_modify_first_contact(app):
                 birthday_year="1985", aniversary_day="20", birthday_day="21", birthday_month="September",
                 aniversary_month="October", aniversary_year="2002",
                 address2="ул. Покрова, д.1", phone2="тест3", notes="zzzzzzzz")
-    contact.id = old_contacts[0].id
-    app.contact.modify_first_contact(contact)
+    index = randrange(len(old_contacts))
+    contact.id = old_contacts[index].id
+    app.contact.modify_contact_by_index(contact, index)
     new_contacts = app.contact.get_contact_list()
     assert len(old_contacts) == len(new_contacts)
-    old_contacts[0] = contact
+    old_contacts[index] = contact
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
