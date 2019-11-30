@@ -132,7 +132,7 @@ class ContactHelper:
     def modify_first_contact(self, contact):
         self.modify_contact_by_index(0)
 
-    def init_modify_contact_by_index(self, contact, index):
+    def init_modify_contact_by_index(self, index):
         wd = self.app.wd
         # инициировать редактирование первого конаткта
         wd.find_elements_by_xpath("//img[@title='Edit']")[index].click()
