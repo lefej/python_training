@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 from model.contact import Contact
+import re
 
 class ContactHelper:
 
@@ -134,7 +135,6 @@ class ContactHelper:
 
     def init_modify_contact_by_index(self, index):
         wd = self.app.wd
-        # инициировать редактирование первого конаткта
         wd.find_elements_by_xpath("//img[@title='Edit']")[index].click()
 
     def modify_contact_by_index(self, contact, index):
@@ -171,6 +171,7 @@ class ContactHelper:
 
     def get_contact_info_from_edit_page(self, index):
         wd = self.app.wd
+        self.app.open_home_page()
         self.init_modify_contact_by_index(index)
         firstname = wd.find_element_by_name("firstname").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
@@ -182,3 +183,22 @@ class ContactHelper:
         return Contact(firstname=firstname, lastname=lastname,
                        home_phone=homephone, work_phone=workphone,
                        mobile_phone=mobilephone, phone2=secondaryphone )
+
+    def open_contact_view_by_index(self, index):
+        wd = self.app.wd
+        self.app.open_home_page()
+        row = wd.find_elements_by_name("entry")[index]
+        cell = row.find_elements_by_tag_name("td")[6]
+        cell.find_element_by_tag_name("a").click()
+
+
+    def get_contact_from_view_page(self, index):
+         wd = self.app.wd
+         self.open_contact_view_by_index(index)
+         text = wd.find_element_by_id("content").text
+         homephone = re.search("H: (.*)", text).group(1)
+         workphone = re.search("W: (.*)", text).group(1)
+         mobilephone = re.search("M: (.*)", text).group(1)
+         secondaryphone = re.search("P: (.*)", text).group(1)
+         return Contact(home_phone=homephone, work_phone=workphone,
+                        mobile_phone=mobilephone, phone2=secondaryphone)
