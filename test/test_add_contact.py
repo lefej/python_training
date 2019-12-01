@@ -1,37 +1,31 @@
 # -*- coding: utf-8 -*-
 from model.contact import Contact
 from random import randrange
+import pytest
+import random
+import string
 
-def test_add_contact1(app):
-        old_contacts = app.contact.get_contact_list()
-        contact = Contact(firstname ="Олеся", middlename ="Павловна", lastname ="Лисовская", nickname ="lefej", title ="тест", address ="г. Москва, ул. Раменки, д.25",
-                           company = "НИИ Восход", home_phone = "555555", mobile_phone = "444444", work_phone = "33333", fax = "22222",
-                           email = "lefej@rambler.ru", email2 = "olesalis@gmail.com",
-                           email3 = "test@mail.ru", site = "test.com",
+def random_string(prefix, maxlen):
+    symbols = string.ascii_letters + string.digits
+    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+
+testdata =  [Contact(firstname =  random_string("firstname", 20), lastname =  random_string("lastname", 30), middlename = random_string("middlename", 30), nickname =random_string("middlename", 30),
+                           title =random_string("middlename", 30), address =random_string("address", 30),
+                           company = random_string("company", 30), home_phone = random_string("home_phone", 30), mobile_phone = random_string("mobile_phone", 30),
+                           work_phone = random_string("work_phone", 30), fax = random_string("fax", 30),
+                           email = random_string("email", 30), email2 = random_string("email2", 30),
+                           email3 = random_string("email3", 30), site = random_string("site", 30),
                            birthday_year = "1990", aniversary_day = "28", birthday_day = "30", birthday_month = "July",
                            aniversary_month = "August", aniversary_year = "2000",
-                           address2 = "ул. Удальцова, д.85", phone2 = "тест2", notes = "тест тест тест 7777")
+                           address2 = random_string("address2", 30), phone2 = random_string("phone2", 30), notes = random_string("middlename", 30))
+             for i in range(5)
+]
+
+@pytest.mark.parametrize("contact", testdata, ids=[repr(x) for x in testdata])
+def test_add_contact1(app, contact):
+        old_contacts = app.contact.get_contact_list()
         app.contact.create(contact)
         new_contacts = app.contact.get_contact_list()
         assert len(old_contacts) + 1 == len(new_contacts)
         old_contacts.append(contact)
         assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
-
-
-def test_add_contact2(app):
-    old_contacts = app.contact.get_contact_list()
-    contact = Contact(firstname="Иван", middlename="Иванович", lastname="Иванов", nickname="ivanov",
-                      title="тест", address="г. Москва, ул. Ленина, д.25",
-                      company="АО Сбербанк", home_phone="555555", mobile_phone="444444",
-                      work_phone="33333", fax="22222",
-                      email="ivanov@rambler.ru", email2="ivanov@gmail.com",
-                      email3="test@mail.ru", site="test.com",
-                      birthday_year="2000", aniversary_day="22", birthday_day="11",
-                      birthday_month="January",
-                      aniversary_month="August", aniversary_year="2000",
-                      address2="ул. Почтовая, д.85", phone2="тест2", notes="тест тест тест тест тест 999555")
-    app.contact.create(contact)
-    new_contacts = app.contact.get_contact_list()
-    assert len(old_contacts) + 1 == len(new_contacts)
-    old_contacts.append(contact)
-    assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
